@@ -1,10 +1,21 @@
 package pl.it.camp.DataBase;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import pl.it.camp.Products.Products;
+import pl.it.camp.authenticate.Authenticator;
+import pl.it.camp.authenticate.User;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DataBase {
 
     private Products[] products = new Products[5];
+
+    private List<User> users = new ArrayList<>();
+    private static final DataBase instace = new DataBase();
+
 
     public DataBase() {
 
@@ -13,6 +24,9 @@ public class DataBase {
         this.products[2] = new Products(3, "Jogurt", 3, 5.4);
         this.products[3] = new Products(4, "Herbata", 4, 5.4);
         this.products[4] = new Products(5, "Sok", 5, 4.88);
+        this.users.add( new User("admin", DigestUtils.md5Hex(Authenticator.MD5_SEED + "admin")));
+        this.users.add( new User("user", DigestUtils.md5Hex(Authenticator.MD5_SEED + "user")));
+
     }
 
     private Products findByCode(int kod) {
@@ -57,9 +71,26 @@ public class DataBase {
 
     }*/
 
+    public Products[] getproducts   () {return products;}
+
+    public User getUserByLogin (String login) {
+        for (User user:this.users){
+            if ( user.getLogin().equals(login)){
+                return user;
+            }
+        }
+
+        return  null;
+    }
+
     public Products[] getProducts() {
         return products;
     }
 
+
+
+    public static DataBase getInstace() {
+        return instace;
+    }
 
 }

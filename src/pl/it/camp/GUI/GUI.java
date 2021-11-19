@@ -4,7 +4,13 @@ import pl.it.camp.Products.Products;
 
 public class GUI {
 
-    public void menu() {
+
+    private static final GUI instance = new GUI();
+
+    private GUI() {
+
+    }
+    public static void menu() {
         System.out.println("1. Listwa produktów");
         System.out.println("2. Kup produkt ");
         System.out.println("3. Wyjdz");
@@ -22,6 +28,9 @@ public class GUI {
 
     }
 
+    public static GUI getInstance(){
+        return instance;
+    }
 }
 
 
